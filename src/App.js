@@ -1,24 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./App.css";
-import MyComponent from "./MyComponent";
-
 
 function App() {
-  const [inputText, setInputText] = useState("");
+  const [inputMessage, setInputMessage] = useState("");
+  const [messagesArray, setMessagesArray] = useState([]);
+
+  const onSendMessage = () => {
+    setMessagesArray((prev) => [...prev, inputMessage]);
+    setInputMessage("");
+  };
 
   return (
-    <div>
-      <input
-        value={inputText}
-        onChange={(e) => setInputText(e.target.value)}
-        style={{
-          width: 400,
-          height: 100,
-          color: "red",
-        }}
-      />
+    <div className="mainWrapper">
+      <div className="messageList">
+        {messagesArray.map((message, i) => (
+          <div key={i}>{message}</div>
+        ))}
+      </div>
 
-      <MyComponent textToShow={inputText} />
+      <div className="inputWrapper">
+        <input
+          className="input"
+          value={inputMessage}
+          onChange={(e) => setInputMessage(e.target.value)}
+          onKeyDown={({key}) => {
+            if (key === 'Enter') {
+              console.log('Enter')
+              onSendMessage();
+            }
+          }}
+        />
+        <button onClick={onSendMessage}>Отправить</button>
+      </div>
     </div>
   );
 }
