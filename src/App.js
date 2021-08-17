@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import "./App.css";
 
 function App() {
@@ -23,9 +23,9 @@ function App() {
           className="input"
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
-          onKeyDown={({key}) => {
-            if (key === 'Enter') {
-              console.log('Enter')
+          onKeyDown={({ key }) => {
+            if (key === "Enter") {
+              console.log("Enter");
               onSendMessage();
             }
           }}
