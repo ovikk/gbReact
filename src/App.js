@@ -1,36 +1,40 @@
 import React, { useState } from "react";
-import "./App.css";
+import MessageList from "./MessageList";
+import MessageInput from "./MessageInput";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  appWrapper: {
+    height: "100vh",
+    width: "100vw",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  componentWrapper: {
+    width: "600px",
+    height: "800px",
+    border: "1px solid black",
+    display: "flex",
+    flexDirection: "column",
+  },
+}));
 
 function App() {
-  const [inputMessage, setInputMessage] = useState("");
   const [messagesArray, setMessagesArray] = useState([]);
 
-  const onSendMessage = () => {
-    setMessagesArray((prev) => [...prev, inputMessage]);
-    setInputMessage("");
+  const classes = useStyles();
+
+  const onSendMessage = (messageText) => {
+    setMessagesArray((prev) => [...prev, messageText]);
   };
 
   return (
-    <div className="mainWrapper">
-      <div className="messageList">
-        {messagesArray.map((message, i) => (
-          <div key={i}>{message}</div>
-        ))}
-      </div>
-
-      <div className="inputWrapper">
-        <input
-          className="input"
-          value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-          onKeyDown={({ key }) => {
-            if (key === "Enter") {
-              console.log("Enter");
-              onSendMessage();
-            }
-          }}
-        />
-        <button onClick={onSendMessage}>Отправить</button>
+    <div className={classes.appWrapper}>
+      <div className={classes.componentWrapper}>
+        <MessageList messagesArray={messagesArray} />
+        <MessageInput onSendMessage={onSendMessage} />
       </div>
     </div>
   );
