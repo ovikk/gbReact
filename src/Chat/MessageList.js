@@ -6,6 +6,7 @@ const useStyles = makeStyles(() => ({
     width: "100%",
     height: "90%",
     borderBottom: "1px solid black",
+    overflow: "auto",
   },
 }));
 
@@ -15,7 +16,7 @@ const MessageList = ({ messagesArray }) => {
   return (
     <div className={classes.messageList}>
       {messagesArray.map((message, i) => (
-        <div key={i}>{message}</div>
+        <div key={i}>{message.messageText}</div>
       ))}
     </div>
   );

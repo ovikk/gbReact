@@ -1,43 +1,29 @@
-import React, { useState } from "react";
-import MessageList from "./MessageList";
-import MessageInput from "./MessageInput";
-import { makeStyles } from "@material-ui/core/styles";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Chat from "./Chat";
+import Playground from "./Playground";
+import Home from "./Home";
+import AppBar from "./AppBar";
 
-const useStyles = makeStyles((theme) => ({
-  appWrapper: {
-    height: "100vh",
-    width: "100vw",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  componentWrapper: {
-    width: "600px",
-    height: "800px",
-    border: "1px solid black",
-    display: "flex",
-    flexDirection: "column",
-  },
-}));
-
-function App() {
-  const [messagesArray, setMessagesArray] = useState([]);
-
-  const classes = useStyles();
-
-  const onSendMessage = (messageText) => {
-    setMessagesArray((prev) => [...prev, messageText]);
-  };
-
+const App = () => {
   return (
-    <div className={classes.appWrapper}>
-      <div className={classes.componentWrapper}>
-        <MessageList messagesArray={messagesArray} />
-        <MessageInput onSendMessage={onSendMessage} />
-      </div>
-    </div>
+    <Router>
+      <AppBar />
+
+      <Switch>
+        <Route path="/chat">
+          <Chat />
+        </Route>
+
+        <Route path="/playground">
+          <Playground />
+        </Route>
+
+        <Route path="/">
+          <Home />
+        </Route>
+      </Switch>
+    </Router>
   );
-}
+};
 
 export default App;

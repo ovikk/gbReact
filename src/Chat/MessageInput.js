@@ -43,7 +43,6 @@ const MessageInput = ({ onSendMessage }) => {
         onChange={(e) => setInputMessage(e.target.value)}
         onKeyDown={({ key }) => {
           if (key === "Enter") {
-            console.log("Enter");
             sendAndRemoveInput();
           }
         }}
