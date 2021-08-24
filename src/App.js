@@ -15,7 +15,7 @@ const App = () => {
         </Route>
 
         <Route path="/playground">
-          <Playground />
+          <Playground myProps={1} />
         </Route>
 
         <Route path="/">
