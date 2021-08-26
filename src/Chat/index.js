@@ -4,6 +4,7 @@ import { addMessage } from "./chatSlice";
 import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
 import { makeStyles } from "@material-ui/core/styles";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   chatWrapper: {
@@ -25,19 +26,23 @@ const useStyles = makeStyles((theme) => ({
 
 function Chat() {
   // const [messagesArray, setMessagesArray] = useState([]);
-  const { messagesArray } = useSelector((state) => state.chat);
+  const urlParams = useParams();
+  const chatId = Number.parseInt(urlParams.id);
+
+  const { chats } = useSelector((state) => state.chat);
+  const messagesArray = chats.find((chat) => chat.id === chatId).messagesArray;
   const dispatch = useDispatch();
 
   const classes = useStyles();
 
   const onSendMessage = (messageText) => {
-    dispatch(addMessage({ author: "me", messageText }));
+    dispatch(addMessage({ chatId, messageText }));
   };
 
   useEffect(() => {
     if (messagesArray.length > 0) {
       setTimeout(() => {
-        console.log("Message was sent");
+        // console.log("Message was sent");
       }, 1000);
     }
   }, [messagesArray]);

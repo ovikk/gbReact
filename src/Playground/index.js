@@ -23,23 +23,9 @@ const Playground = (props) => {
   const { messagesArray } = useSelector((state) => state.chat);
 
   return (
-    <>
-      <div>
-        Array of messages:
-        {messagesArray.map((o, i) => (
-          <div key={i}>{o.messageText}</div>
-        ))}
-      </div>
-      <TextField className={classes.noUnderline}>Playground</TextField>
-    </>
+    <div>Playground</div>
   );
 };
 
-const withAuthorizationHOC = function (Component) {
-  return (props) => {
-    // console.log("HOC PROPS", props);
-    return <Component userInfo={{ userId: 1, userName: "Ovik" }} {...props} />;
-  };
-};
 
-export default withAuthorizationHOC(Playground);
+export default Playground;

@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme) => ({
   },
 
   button: {
-    margin: "0px 10px",
   },
 
   inputWrapper: {
