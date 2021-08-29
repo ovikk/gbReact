@@ -61,11 +61,9 @@ export const chatSlice = createSlice({
   },
   reducers: {
     addMessage: (state, action) => {
-      const { chatId, messageText } = action;
-      const chatIndex = state.chats.findIndex((chat) => chat.userId === chatId);
+      const { chatId, messageText } = action.payload;
+      const chatIndex = state.chats.findIndex((chat) => chat.id === chatId);
       const chat = state.chats[chatIndex];
-
-      console.log(chat);
 
       const newChats = [...state.chats];
 

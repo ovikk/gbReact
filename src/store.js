@@ -5,4 +5,8 @@ export default configureStore({
   reducer: {
     chat: chatReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
