@@ -32,7 +32,6 @@ function Chat() {
   const { chats } = useSelector((state) => state.chat);
   const messagesArray = chats.find((chat) => chat.id === chatId).messagesArray;
   const dispatch = useDispatch();
-
   const classes = useStyles();
 
   const onSendMessage = (messageText) => {
@@ -46,6 +45,7 @@ function Chat() {
       }, 1000);
     }
   }, [messagesArray]);
+
 
   return (
     <div className={classes.chatWrapper}>

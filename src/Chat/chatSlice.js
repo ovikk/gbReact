@@ -21,7 +21,7 @@ export const chatSlice = createSlice({
           {
             timeStamp: moment("1995-12-17T03:24:00"),
             userId: 2,
-            text: "Тебе тоже привет Joe, Тебе тоже привет Joe, Тебе тоже привет Joe, Тебе тоже привет Joe",
+            text: "Тебе тоже привет Joe, Тебе тоже привет Joe, Тебе тоже привет Joe",
             isRead: false,
           },
         ],
@@ -61,11 +61,11 @@ export const chatSlice = createSlice({
   },
   reducers: {
     addMessage: (state, action) => {
-      const { chatId, messageText } = action;
-      const chatIndex = state.chats.findIndex((chat) => chat.userId === chatId);
+      const { chatId, messageText } = action.payload;
+      const chatIndex = state.chats.findIndex((chat) => chat.id === chatId);
       const chat = state.chats[chatIndex];
 
-      console.log(chat);
+      console.log(chatIndex, state.chats);
 
       const newChats = [...state.chats];
 
