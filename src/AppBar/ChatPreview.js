@@ -2,7 +2,8 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import clsx from "clsx";
 import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
@@ -17,6 +18,13 @@ const useStyles = makeStyles((theme) => ({
 
     "&:hover": {
       backgroundColor: "#F1F1F1",
+    },
+  },
+
+  selectedChat: {
+    backgroundColor: "#B1B1B1",
+    "&:hover": {
+      backgroundColor: "#B1B1B1",
     },
   },
 
@@ -43,30 +51,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ChatPreview = ({ chat }) => {
+const ChatPreview = ({ messages, profile }) => {
   const classes = useStyles();
   const history = useHistory();
+  const location = useLocation();
 
-  const { avatarUrl, name, messagesArray, id } = chat;
+  const { avatar, name, id } = profile;
+
+  const locationSplitted = location.pathname.split("/");
+
+  const isSelected =
+    locationSplitted[1] === "chat" &&
+    Number.parseInt(locationSplitted[2]) === id;
 
   const lastMessage =
-    messagesArray.length > 0
-      ? messagesArray[messagesArray.length - 1]
+    messages.length > 0
+      ? messages[messages.length - 1]
       : { text: "", timeStamp: null };
-
-  const unreadMessagesCount = messagesArray.reduce((acc, message) => {
-    if (message.userId === id && !message.isRead) {
-      acc++;
-    }
-    return acc;
-  }, 0);
 
   return (
     <Box
-      className={classes.mainWrapper}
+      // className={classes.mainWrapper}
+      className={clsx(classes.mainWrapper, {
+        [classes.selectedChat]: isSelected,
+      })}
       onClick={() => history.push(`/chat/${id}`)}
     >
-      <Avatar alt="Remy Sharp" src={avatarUrl} />
+      <Avatar alt="Remy Sharp" src={avatar} />
 
       <Box className={classes.midddleContentWrapper}>
         <Typography variant="h6" className={classes.overFlowText}>
@@ -79,10 +90,7 @@ const ChatPreview = ({ chat }) => {
 
       <Box className={classes.rightContentWrapper}>
         <Typography variant="caption">
-          {lastMessage.timeStamp.format("h:mm")}
-        </Typography>
-        <Typography variant="subtitle1">
-          {unreadMessagesCount > 0 && unreadMessagesCount}
+          {moment(lastMessage.timeStamp).format("h:mm")}
         </Typography>
       </Box>
     </Box>

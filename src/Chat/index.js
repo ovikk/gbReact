@@ -13,44 +13,43 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#0F0F0F",
   },
 
   componentWrapper: {
     width: "600px",
     height: "800px",
-    border: "1px solid black",
     display: "flex",
     flexDirection: "column",
   },
 }));
 
 function Chat() {
-  // const [messagesArray, setMessagesArray] = useState([]);
   const urlParams = useParams();
   const chatId = Number.parseInt(urlParams.id);
 
-  const { chats } = useSelector((state) => state.chat);
-  const messagesArray = chats.find((chat) => chat.id === chatId).messagesArray;
+  const messages = useSelector((state) => state.chat.messages[chatId]);
+  const myId = useSelector((state) => state.chat.myId);
   const dispatch = useDispatch();
 
   const classes = useStyles();
 
   const onSendMessage = (messageText) => {
-    dispatch(addMessage({ chatId, messageText }));
+    dispatch(addMessage({ chatId, messageText, authorId: myId }));
   };
 
   useEffect(() => {
-    if (messagesArray.length > 0) {
+    if (messages.length > 0) {
       setTimeout(() => {
         // console.log("Message was sent");
       }, 1000);
     }
-  }, [messagesArray]);
+  }, [messages]);
 
   return (
     <div className={classes.chatWrapper}>
       <div className={classes.componentWrapper}>
-        <MessageList messagesArray={messagesArray} />
+        <MessageList messagesArray={messages} />
         <MessageInput onSendMessage={onSendMessage} />
       </div>
     </div>

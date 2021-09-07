@@ -14,14 +14,19 @@ const useStyles = makeStyles(() => ({
 
   senderMessage: {
     alignSelf: "flex-start",
+    maxWidth: "60%",
+    backgroundColor: "#212121",
   },
   userMessage: {
     alignSelf: "flex-end",
+    maxWidth: "60%",
+    backgroundColor: "#8475DA",
   },
 
   message: {
-    backgroundColor: "#A1A1A1",
-    padding: "5px",
+    color: "white",
+    boxSizing: "border-box",
+    padding: "5px 10px",
     margin: "10px 5px",
     borderRadius: "30px",
   },
@@ -38,7 +43,7 @@ const MessageList = ({ messagesArray }) => {
           key={i}
           className={`
             ${
-              message.userId === myId
+              message.authorId === myId
                 ? classes.userMessage
                 : classes.senderMessage
             } ${classes.message}`}

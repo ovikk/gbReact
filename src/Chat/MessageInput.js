@@ -5,13 +5,18 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-  input: {
+  inputRoot: {
     margin: "0px 10px",
     width: "70%",
+    '& label': {
+      color: 'white',
+    },
+  },
+  input: {
+    color: "white",
   },
 
-  button: {
-  },
+  button: {},
 
   inputWrapper: {
     flex: 1,
@@ -19,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
+    backgroundColor: "#212121",
+    borderRadius: "10px",
+    boxSizing: "border-box",
+    padding: "20px",
   },
 }));
 
@@ -45,9 +54,12 @@ const MessageInput = ({ onSendMessage }) => {
             sendAndRemoveInput();
           }
         }}
+        InputProps={{
+          className: classes.input,
+        }}
         // multiline
         classes={{
-          root: classes.input,
+          root: classes.inputRoot,
         }}
       />
       <Button
