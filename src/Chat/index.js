@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage } from "./chatSlice";
 import MessageList from "./MessageList";
@@ -24,6 +24,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const sendMessageWithThunk = (message) => (dispatch, getState) => {
+  const { chat } = getState();
+  const myId = chat.myId;
+  dispatch(addMessage(message));
+  if (message.authorId === myId) {
+    const botMessage = {
+      chatId: message.chatId,
+      messageText: "I'm robot",
+      authorId: message.chatId,
+    };
+    setTimeout(() => dispatch(addMessage(botMessage)), 1500);
+  }
+};
+
 function Chat() {
   const urlParams = useParams();
   const chatId = Number.parseInt(urlParams.id);
@@ -35,16 +49,8 @@ function Chat() {
   const classes = useStyles();
 
   const onSendMessage = (messageText) => {
-    dispatch(addMessage({ chatId, messageText, authorId: myId }));
+    dispatch(sendMessageWithThunk({ chatId, messageText, authorId: myId }));
   };
-
-  useEffect(() => {
-    if (messages.length > 0) {
-      setTimeout(() => {
-        // console.log("Message was sent");
-      }, 1000);
-    }
-  }, [messages]);
 
   return (
     <div className={classes.chatWrapper}>

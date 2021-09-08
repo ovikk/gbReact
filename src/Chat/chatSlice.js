@@ -58,9 +58,6 @@ export const chatSlice = createSlice({
   reducers: {
     addMessage: (state, action) => {
       const { chatId, messageText, authorId } = action.payload;
-
-      console.log(action);
-
       state.messages = {
         ...state.messages,
         [chatId]: [
@@ -72,33 +69,6 @@ export const chatSlice = createSlice({
           },
         ],
       };
-
-      // const chatIndex = state.chats.findIndex((chat) => chat.userId === chatId);
-      // const chat = state.chats[chatIndex];
-
-      // console.log(chat);
-
-      // const newChats = [...state.chats];
-
-      // newChats.splice(chatIndex, 1);
-
-      // state.chats = [
-      //   ...newChats,
-      //   {
-      //     ...chat,
-      //     messagesArray: [
-      //       ...chat.messagesArray,
-      //       {
-      //         text: messageText,
-      //         timeStamp: new moment(),
-      //         isRead: false,
-      //         userId: state.myId,
-      //       },
-      //     ],
-      //   },
-      // ];
-
-      // console.log(chatIndex);
     },
   },
 });
