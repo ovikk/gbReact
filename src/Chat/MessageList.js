@@ -37,7 +37,7 @@ const MessageList = ({ messagesArray }) => {
   const { myId } = useSelector((state) => state.chat);
 
   return (
-    <div className={classes.messageList}>
+    <div className={`${classes.messageList} messageList`}>
       {messagesArray.map((message, i) => (
         <div
           key={i}

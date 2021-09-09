@@ -1,4 +1,4 @@
-import React, { useEffect, useState, } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage } from "./chatSlice";
 import MessageList from "./MessageList";
@@ -51,6 +51,12 @@ function Chat() {
   const onSendMessage = (messageText) => {
     dispatch(sendMessageWithThunk({ chatId, messageText, authorId: myId }));
   };
+
+  useEffect(() => {
+    if (document.getElementsByClassName("messageList")[0]) {
+      document.getElementsByClassName("messageList")[0].scrollTop = 999999;
+    }
+  });
 
   return (
     <div className={classes.chatWrapper}>
