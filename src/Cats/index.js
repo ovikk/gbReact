@@ -35,8 +35,6 @@ const Cats = () => {
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector((state) => state.cats);
 
-  console.log(data, loading, error);
-
   const getThunkCatPhoto = useCallback(
     () => dispatch(getCatPhoto()),
     [dispatch]
