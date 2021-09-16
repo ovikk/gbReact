@@ -8,6 +8,7 @@ import Signup from "./Auth/Signup";
 import Login from "./Auth/Login";
 import { makeStyles } from "@material-ui/core/styles";
 import firebase from "firebase/compat";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const useStyles = makeStyles((theme) => ({
   mainWrapper: {
@@ -34,6 +35,11 @@ export const db = firebase.database();
 const App = () => {
   const classes = useStyles();
 
+  const [user, loading] = useAuthState(firebase.auth());
+
+  if (loading) {
+    return <div>Loading</div>;
+  }
   return (
     <Router>
       <div className={classes.mainWrapper}>

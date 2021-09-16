@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AppBar as MaterialUiAppBar } from "@material-ui/core";
+import { AppBar as MaterialUiAppBar, Button } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -15,6 +15,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import SearchIcon from "@material-ui/icons/Search";
 import ChatPreview from "./ChatPreview";
+import { addChatToFirebase } from "./actions";
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -78,7 +79,7 @@ const routes = [
 const AppBar = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { profiles, messages } = useSelector((state) => state.chat);
+  const { chats, messages, myUid } = useSelector((state) => state.chat);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -89,6 +90,13 @@ const AppBar = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const [uId, setuID] = useState("");
+
+  const onAddChat = () => {
+    // console.log('button click')
+    addChatToFirebase(myUid, uId);
   };
 
   return (
@@ -133,12 +141,18 @@ const AppBar = () => {
       </Box>
 
       <Box className={classes.chatWrapper}>
-        {profiles.map((profile) => (
+        {Object.keys(chats).map((uid) => (
           <ChatPreview
-            profile={profile}
-            messages={messages[profile.id] || []}
+            // profile={profile}
+            uid={uid}
+            // messages={messages[profile.id] || []}
           />
         ))}
+      </Box>
+
+      <Box>
+        <TextField value={uId} onChange={(e) => setuID(e.target.value)} />
+        <Button onClick={onAddChat}>Добавить</Button>
       </Box>
     </Drawer>
   );

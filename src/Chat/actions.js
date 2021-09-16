@@ -1,4 +1,5 @@
-import { addMessage, setMessages } from "./chatSlice";
+import { setMessages } from "./chatSlice";
+import { addChatToFirebase } from "../AppBar/actions";
 import { db } from "../App";
 
 const getPayloadFromSnapshot = (snapshot) => {
@@ -15,6 +16,10 @@ export const sendMessageWithThunk = (message) => async (dispatch, getState) => {
   const { chat } = getState();
   const chatId = message.chatId;
   const messages = chat.messages[chatId] || [];
+
+  if (messages.length === 0) {
+    await addChatToFirebase(message.targetUid, message.authorUid);
+  }
 
   dispatch(
     addMessageWithFirebase(chatId, {

@@ -1,5 +1,6 @@
 import { Link, useHistory } from "react-router-dom";
 import firebase from "firebase/compat/app";
+import { getAuth } from "firebase/auth";
 import { useState } from "react";
 import { changeIsAuth } from "../Chat/chatSlice";
 import { useDispatch } from "react-redux";
@@ -25,6 +26,7 @@ const Login = () => {
 
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
+      // await firebase.auth().signOut()
       dispatch(changeIsAuth(true));
       history.push("/playground");
     } catch (error) {

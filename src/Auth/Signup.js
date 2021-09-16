@@ -2,17 +2,18 @@ import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { changeIsAuth } from "../Chat/chatSlice";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { db } from "../App";
 import firebase from "firebase/compat/app";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [surName, setSurName] = useState("");
   const [error, setError] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
-
-  const firebaseApp = firebase.apps[0];
 
   const handlePassChange = (e) => {
     setPassword(e.target.value);
@@ -22,14 +23,29 @@ const Signup = () => {
     setEmail(e.target.value);
   };
 
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleSurNameChange = (e) => {
+    setSurName(e.target.value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      await firebase.auth().createUserWithEmailAndPassword(email, password);
-      dispatch(changeIsAuth(true))
-      history.push('/playground')
+      const { user } = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+
+      await db.ref("profiles").child(user.uid).set({
+        name,
+        surName,
+      });
+      dispatch(changeIsAuth(true));
+      history.push("/playground");
     } catch (error) {
       setError(error.message);
     }
@@ -39,6 +55,25 @@ const Signup = () => {
     <div>
       <form onSubmit={handleSubmit}>
         <p>Fill in the form below to register new account.</p>
+
+        <div>
+          <input
+            placeholder="Name"
+            name="name"
+            type="name"
+            onChange={handleNameChange}
+            value={name}
+          />
+        </div>
+        <div>
+          <input
+            placeholder="Surname"
+            name="surname"
+            type="surname"
+            onChange={handleSurNameChange}
+            value={surName}
+          />
+        </div>
         <div>
           <input
             placeholder="Email"
@@ -66,10 +101,6 @@ const Signup = () => {
           Already have an account? <Link to="/login">Sign in</Link>
         </p>
       </form>
-
-      <code>
-        <pre>{JSON.stringify(firebaseApp.options, null, 2)}</pre>
-      </code>
     </div>
   );
 };

@@ -5,21 +5,20 @@ export const chatSlice = createSlice({
   name: "chat",
   initialState: {
     isAuthenticated: false,
+    myUid: "",
     messages: {},
-    profiles: [
-      {
-        id: 2,
-        name: "Joe Doe",
-        avatar: "https://material-ui.com/static/images/avatar/1.jpg",
-      },
-      {
-        id: 3,
-        name: "Иван Кузнецов",
-        avatar: "https://material-ui.com/static/images/avatar/2.jpg",
-      },
-    ],
-
-    myId: 1,
+    chats: {
+      // {
+      //   id: 2,
+      //   name: "Joe Doe",
+      //   avatar: "https://material-ui.com/static/images/avatar/1.jpg",
+      // },
+      // {
+      //   id: 3,
+      //   name: "Иван Кузнецов",
+      //   avatar: "https://material-ui.com/static/images/avatar/2.jpg",
+      // },
+    },
   },
   reducers: {
     addMessage: (state, action) => {
@@ -39,9 +38,6 @@ export const chatSlice = createSlice({
 
     setMessages: (state, action) => {
       const { chatId, messages } = action.payload;
-
-      console.log(action, "ACTION");
-
       state.messages = {
         ...state.messages,
         [chatId]: messages,
@@ -51,10 +47,23 @@ export const chatSlice = createSlice({
     changeIsAuth: (state, action) => {
       state.isAuthenticated = action.payload;
     },
+
+    setChat: (state, action) => {
+      // const { targetUid, chatId } = action.payload;
+      state.chats = {
+        ...state.chats,
+        ...action.payload,
+      };
+    },
+
+    setMyUid: (state, action) => {
+      state.myUid = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addMessage, changeIsAuth, setMessages } = chatSlice.actions;
+export const { addMessage, changeIsAuth, setMessages, setMyUid, setChat } =
+  chatSlice.actions;
 
 export default chatSlice.reducer;
